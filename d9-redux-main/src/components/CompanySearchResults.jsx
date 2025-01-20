@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
-import { Container, Row, Col } from "react-bootstrap";
+import { Container, Row, Col, Button } from "react-bootstrap";
 import Job from "./Job";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 
 const CompanySearchResults = () => {
   const [jobs, setJobs] = useState([]);
   const params = useParams();
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const baseEndpoint = "https://strive-benchmark.herokuapp.com/api/jobs?company=";
 
@@ -33,9 +36,34 @@ const CompanySearchResults = () => {
       <Row>
         <Col className="my-3">
           <h1 className="display-4">Job posting for: {params.company}</h1>
-          {jobs.map(jobData => (
-            <Job key={jobData._id} data={jobData} />
-          ))}
+        </Col>
+      </Row>
+      {jobs.map((jobData) => (
+        <Row key={jobData._id} className="align-items-center my-2">
+          <Col>
+            <Job data={jobData} />
+          </Col>
+          <Col xs="3">
+            <Button
+              variant="success"
+              className="d-flex align-items-center"
+              onClick={() => {
+                dispatch({
+                  type: "ADD_TO_CART",
+                  payload: jobData,
+                });
+              }}
+            >
+              <span className="me-2">AGGIUNGI AI PREFERITI</span>
+            </Button>
+          </Col>
+        </Row>
+      ))}
+      <Row>
+        <Col className="text-end my-5">
+          <Button variant="primary" onClick={() => navigate("/")}>
+            Torna alla pagina principale
+          </Button>
         </Col>
       </Row>
     </Container>
@@ -43,3 +71,4 @@ const CompanySearchResults = () => {
 };
 
 export default CompanySearchResults;
+
