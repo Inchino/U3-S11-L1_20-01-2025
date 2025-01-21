@@ -1,36 +1,52 @@
-import { Col, Row, Button } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import Job from "./Job";
+import { Container, Row, Col, ListGroup, ListGroupItem, Button } from "react-bootstrap";
+import { useSelector, useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 
 const Favourites = () => {
-  const list = useSelector((state) => state.list.content); // Ottieni la lista dei preferiti
+  const list = useSelector((state) => state.favourite.list);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
 
   return (
-    <Row>
-      <Col sm={12}>
-        <ul style={{ listStyle: "none", padding: 0 }}>
-          {list.map((job) => (
-            <li key={job._id} className="my-4 d-flex align-items-center">
-              <Button
+    <Container>
+      <Row>
+        <Col xs={10} className="mx-auto my-3">
+          <h1>Favourites</h1>
+          <Button variant="primary" onClick={() => navigate("/")}>
+            Home
+          </Button>
+        </Col>
+        <Col xs={10} className="mx-auto my-3">
+          {list.length === 0 ? (
+            <p>Non hai ancora aggiunto lavori ai preferiti.</p>
+          ) : (
+            <ListGroup>
+              {list.map((job, i) => (
+                <ListGroupItem key={job._id || i} className="d-flex justify-content-between align-items-center">
+                  <Link to={`/jobs/${job._id}`} className="text-decoration-none">
+                    {job.title || "Job"}
+                  </Link>
+                  <Button
                 variant="danger"
-                className="me-3"
-                onClick={() => {
-                  dispatch({
-                    type: "REMOVE_FROM_CART",
-                    payload: job._id,
-                  });
-                }}
-              >
-                Rimuovi
-              </Button>
-              <Job data={job} />
-            </li>
-          ))}
-        </ul>
-      </Col>
-    </Row>
+                  className="mr-2"
+                  onClick={() =>
+                    dispatch({
+                      type: "REMOVE_FROM_FAVOURITE",
+                      payload: i,
+                    })
+                  }
+                >RIMUOVI DAI PREFERITI
+                </Button>
+                </ListGroupItem>
+              ))}
+            </ListGroup>
+          )}
+        </Col>
+      </Row>
+    </Container>
   );
 };
 
 export default Favourites;
+

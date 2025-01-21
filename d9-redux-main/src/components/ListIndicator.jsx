@@ -4,9 +4,7 @@ import { useSelector } from "react-redux";
 
 const ListIndicator = () => {
   const navigate = useNavigate();
-  const content = useSelector((state) => {
-    return state.list.content;
-  });
+  const favourites = useSelector((state) => state.favourite.list)
 
   return (
     <div className="d-flex justify-content-center my-4">
@@ -15,7 +13,7 @@ const ListIndicator = () => {
         className="d-flex align-items-center"
       >
         <h3>Preferiti: </h3>
-        <span className="ms-2">{content.length}</span>
+        <span className="ms-2">{favourites.length}</span>
       </Button>
     </div>
   );
