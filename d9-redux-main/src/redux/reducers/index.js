@@ -1,25 +1,25 @@
 const initialState = {
-    list:{
-        content:[],
+    favourite:{
+        list:[],
     },
 }
 
 const mainReducer = (state = initialState, action) =>{
     switch(action.type){
-        case 'ADD_TO_LIST':
+        case 'ADD_TO_FAVOURITE':
         return{
             ...state,
-            list:{
-                ...state.list,
-                content: state.list.content.concat(action.payload),
+            favourite:{
+                ...state.favourite,
+                list: state.favourite.list.concat(action.payload),
             },
         }
-        case 'REMOVE_FROM_LIST':
+        case 'REMOVE_FROM_FAVOURITE':
         return {
             ...state,
-            list: {
-              ...state.list,
-              content: state.list.content.filter((book, i) => {
+            favourite: {
+              ...state.favourite,
+              list: state.favourite.list.filter((job, i) => {
                 if (action.payload === i) {
                   return false
                 } else {
