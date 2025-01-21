@@ -23,7 +23,6 @@ const CompanySearchResults = () => {
   }, [favourites]);
 
   const initializeAddedToFavourites = () => {
-    // Populate `addedToFavourites` based on the existing favourites
     const initialState = {};
     favourites.forEach((job) => {
       initialState[job._id] = true;
@@ -51,7 +50,6 @@ const CompanySearchResults = () => {
       payload: job,
     });
 
-    // Update local state to mark this job as added
     setAddedToFavourites((prevState) => ({
       ...prevState,
       [job._id]: true,
@@ -75,7 +73,7 @@ const CompanySearchResults = () => {
               variant="success"
               className="d-flex align-items-center"
               onClick={() => handleAddToFavourites(job)}
-              disabled={addedToFavourites[job._id]} // Disable button if already added
+              disabled={addedToFavourites[job._id]}
             >
               {addedToFavourites[job._id] ? (
                 <span className="me-2">AGGIUNTO AI PREFERITI</span>
